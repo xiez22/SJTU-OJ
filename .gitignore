@@ -1,5 +1,13 @@
 #.CPP ONLY!!!
-*
-!*.cpp
+Code/*/.vs/
+Code/*/Debug/
+Code/*/*/Debug/
+Code/*/*/*
+*.vcxproj
+*.filters
+*.user
+*.sln
+
+!Code/*/*/*.cpp
 !*.md
 !*.gitignore
