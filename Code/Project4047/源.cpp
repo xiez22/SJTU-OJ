@@ -1,11 +1,7 @@
 #include "iostream"
-#include "fstream"
 using namespace std;
 
 int main() {
-	ofstream fout;
-	fout.open("E:\\Test\\good.txt");
-
 	bool a[2000001];
 	int num;
 	cin >> num;
@@ -20,12 +16,11 @@ int main() {
 		}
 	}
 
-	fout << "2";
+	cout << "2";
 
 	for (int i = 3; i <= num; i++) {
 		if (a[i])
-			//printf(" %d", i);
-		    fout << " " << i;
+			cout << " " << i;
 	}
 
 
