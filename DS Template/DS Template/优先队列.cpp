@@ -42,7 +42,7 @@ public:
 	//¹¹½¨
 	myPriorityQueue() {
 		queueData.clear();
-		queueData.push_back((T)0);
+		queueData.push_back(*new T);
 		sizeOfQueue = 0;
 	}
 

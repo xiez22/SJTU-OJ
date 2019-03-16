@@ -1,10 +1,2 @@
-﻿  二叉树.cpp
-  优先队列.cpp
-  图.cpp
-  并查集.cpp
-  向量.cpp
-  栈.cpp
-  队列.cpp
-  红黑树.cpp
-  正在生成代码...
-LINK : fatal error LNK1561: 必须定义入口点
+﻿  排序.cpp
+  DS Template.vcxproj -> E:\Project\C++\DS Template\Debug\DS Template.exe
