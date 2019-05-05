@@ -1,3 +1,4 @@
+# 如果您看到了这个仓库，请记得点一下"Star"再离开，谢谢！
 # SJTU-OJ
 本人编写的上海交通大学OJ系统部分题目的C++版本代码。
 - [上海交通大学Online Judge](https://acm.sjtu.edu.cn/OnlineJudge/)
