@@ -50,7 +50,7 @@ int bfs(int startx, int starty, int endx, int endy) {
 	start_point.distance = 0;
 	start_point.remain = 6;
 	queue_data.push(start_point);
-	visited[startx][starty] = 0;
+	visited[startx][starty] = 6;
 
 	while (!queue_data.empty()) {
 		auto temp = queue_data.front();
@@ -75,12 +75,9 @@ int bfs(int startx, int starty, int endx, int endy) {
 					next.posx = nextx;
 					next.posy = nexty;
 					next.remain = temp.remain - 1;
-					if (visited[nextx][nexty] == -1) {
+					if (next.remain > visited[next.posx][next.posy]) {
 						queue_data.push(next);
-						visited[nextx][nexty] = next.distance;
-					}
-					else if (next.distance <= visited[nextx][nexty] + 6) {
-						queue_data.push(next);
+						visited[next.posx][next.posy] = next.remain;
 					}
 				}
 			}
@@ -91,7 +88,6 @@ int bfs(int startx, int starty, int endx, int endy) {
 }
 
 int main() {
-	memset(visited, -1, sizeof(visited));
 	scanf("%d %d", &n, &m);
 
 	int startx = 0, starty = 0,
