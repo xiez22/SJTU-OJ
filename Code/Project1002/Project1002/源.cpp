@@ -1,73 +1,35 @@
 #include "iostream"
-
+#include "cstdio"
 using namespace std;
 
-constexpr int maxnum = 1000;
+int hs[1009][1009] = { 0 };
 
 int main() {
-	int l = 0, w = 0;
-	int a = 0, b = 0;
-	cin >> l >> w;
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
 
-	//声明数组
-	short hs[maxnum][maxnum];
+	int L, W;
+	cin >> L >> W;
 
-	//输入数组
-	for (int i = 0; i < l; i++) {
-		for (int j = 0; j < w; j++) {
-			cin >> hs[i][j];
+	for (int i = 1; i <= L; ++i) {
+		for (int j = 1; j <= W; ++j) {
+			int temp;
+			cin >> temp;
+			hs[i][j] = hs[i][j - 1] + hs[i - 1][j] - hs[i - 1][j - 1] + temp;
 		}
 	}
-
-	//范围
+	int cur_ans = 0;
+	int a, b;
 	cin >> a >> b;
-
-	//记录数据
-	int max = 0;
-
-	//第一次计算
-	int temp1 = 0;
-	int inittemp = 0;
-	for (int i1 = 0; i1 < a; i1++) {
-		for (int j1 = 0; j1 < b; j1++) {
-			inittemp += hs[i1][j1];
-		}
-	}
-	temp1 = inittemp;
-	max = max < inittemp ? inittemp : max;
-
-	//移动
-	for (int i = 0; i < l - a + 1; i++) {
-		//行移动
-		if (i > 0) {
-			int tempa = 0, tempb = 0;
-			for (int j1 = 0; j1 < b; j1++) {
-				tempa += hs[i-1][j1];
-			}
-			for (int j1 = 0; j1 < b; j1++) {
-				tempb+= hs[i+a-1][j1];
-			}
-			temp1 = temp1 - tempa + tempb;
-			max = max < temp1 ? temp1 : max;
-		}
-
-		int temp2 = temp1;
-		for (int j = 1; j < w - b + 1; j++) {
-			int tempa = 0, tempb = 0;
-			//列移动
-			for (int i1 = 0;i1 <a; i1++) {
-				tempa += hs[i + i1][j-1];
-			}
-			for (int i1 = 0; i1 < a; i1++) {
-				tempb += hs[i + i1][j+b-1];
-			}
-			temp2 = temp2 - tempa + tempb;
-			max = max < temp2 ? temp2 : max;
+	for (int i = 0; i + a <= L; ++i) {
+		for (int j = 0; j + b <= W; ++j) {
+			if (hs[i + a][j + b] - hs[i][j + b] - hs[i + a][j] + hs[i][j] > cur_ans)
+				cur_ans = hs[i + a][j + b] - hs[i][j + b] - hs[i + a][j] + hs[i][j];
 		}
 	}
 
-	//输出
-	cout << max << endl;
+	cout << cur_ans;
 
 	return 0;
 }

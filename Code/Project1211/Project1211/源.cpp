@@ -1,9 +1,62 @@
 #include "iostream"
 #include "cstdio"
-#include "queue"
 #include "cmath"
 #include "cstring"
 using namespace std;
+
+template <class T>
+class mQueue {
+	class node {
+	public:
+		T data;
+		node* next = nullptr;
+	};
+	node* head = nullptr,
+		* rear = nullptr;
+	size_t _size = 0;
+
+public:
+	//构造函数
+	mQueue() {
+		head = new node;
+		rear = head;
+	}
+	//判断是否为空
+	bool empty() {
+		return head->next == nullptr;
+	}
+	//增加
+	void push(const T& val) {
+		rear->next = new node;
+		rear = rear->next;
+		rear->data = val;
+		++_size;
+	}
+	//删除
+	void pop() {
+		//安全措施
+		if (head->next == nullptr)
+			return;
+		auto temp = head->next;
+		delete head;
+		head = temp;
+		--_size;
+	}
+	//大小
+	size_t size() {
+		return _size;
+	}
+	//最前
+	T& front() {
+		//安全措施
+		return head->next->data;
+	}
+	//最后
+	T& back() {
+		//安全措施
+		return rear->data;
+	}
+};
 
 //二叉树类
 template <class T>
@@ -84,7 +137,7 @@ public:
 		if (empty())
 			return false;
 		//层次遍历
-		queue<node*> treeQueue;
+		mQueue<node*> treeQueue;
 		bool flag = false;
 		//先入队
 		treeQueue.push(root);

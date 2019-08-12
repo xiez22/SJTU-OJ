@@ -24,10 +24,8 @@ public:
 		head->next->data = data;
 		rear = head->next;
 	}
-
-	
 	~mySheet() {
-		for (auto p = head;;) {
+		for (auto p = head; p;) {
 			auto temp = p->next;
 			if (p == rear) {
 				delete p;

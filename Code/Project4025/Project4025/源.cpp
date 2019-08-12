@@ -2,8 +2,8 @@
 #include "cstdio"
 using namespace std;
 
-constexpr int inf = 100000009;
-constexpr double jd = 1e-11;
+constexpr int inf = 1000000009;
+constexpr double jd = 1e-4;
 
 int height[509][509] = { 0 };
 
@@ -25,7 +25,7 @@ int main() {
 	double V;
 	cin >> V;
 
-	double left = minh, right = maxh, mid;
+	double left = minh, right = 1e10, mid;
 	int cnt = 0;
 	while (right - left > jd) {
 		mid = (left + right) / 2;
@@ -33,7 +33,7 @@ int main() {
 		double v = 0;
 		for (int i = 0; i < M; ++i) {
 			for (int j = 0; j < N; ++j) {
-				if (height[i][j] < mid) {
+				if (height[i][j] + jd < mid) {
 					++cnt;
 					v += (mid - height[i][j]);
 				}
@@ -42,6 +42,8 @@ int main() {
 		if (v < V) {
 			left = (left + right) / 2;
 		}
+		else if (v == V)
+			break;
 		else {
 			right = (left + right) / 2;
 		}

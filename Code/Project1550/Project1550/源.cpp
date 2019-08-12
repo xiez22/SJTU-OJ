@@ -2,7 +2,7 @@
 #include "cstdio"
 using namespace std;
 
-int xi[10009] = { 0 };
+int xi[1009] = { 0 };
 
 int main() {
 	int n;

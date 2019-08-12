@@ -1,5 +1,5 @@
 #include <iostream>
-#include <iomanip>
+#include "cstdio"
 using namespace std;
 
 class MyComplex
@@ -12,7 +12,10 @@ public:
 		return input;
 	}
 	friend ostream& operator<<(ostream& output, const MyComplex &b) {
-		output << fixed << setprecision(2) << b.x << " " << b.y;
+		char op[1000];
+		sprintf(op, "%.2f %.2f", b.x, b.y);
+		output << op;
+		//output << fixed << setprecision(2) << b.x << " " << b.y;
 		return output;
 	}
 

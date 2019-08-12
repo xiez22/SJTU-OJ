@@ -108,7 +108,7 @@ int main() {
 	int N, R;
 	scanf("%d %d", &N, &R);
 	N *= 2;
-	srand(0);
+	//srand(0);
 	for (int i = 1; i <= N; ++i) {
 		paiwei[i - 1] = i;
 		scanf("%lld", &mouse[i].val);
@@ -120,8 +120,8 @@ int main() {
 	}
 
 	//排序
-	//quick_sort(paiwei, paiwei + N, cmp);
-	myMergeSort(paiwei, N);
+	quick_sort(paiwei, paiwei + N, cmp);
+	//myMergeSort(paiwei, N);
 
 	//开始比赛
 	for (int i = 0; i < R; ++i) {

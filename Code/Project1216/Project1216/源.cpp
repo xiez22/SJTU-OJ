@@ -1,16 +1,152 @@
 #include "iostream"
-#include "vector"
-#include "algorithm"
 #include "cstdio"
 #include "cstring"
 using namespace std;
 
 constexpr int inf = 1e8;
 
+int mmin(int a, int b) {
+	return a < b ? a : b;
+}
+
+template <class T>
+class mVector {
+	T** vector_data = nullptr;
+	unsigned int size = 0;
+	unsigned int capacity = 0;
+
+public:
+	//构造函数
+	mVector() = default;
+	mVector(unsigned int _size) :size(_size) {
+		capacity = _size * 2;
+		vector_data = new T * [capacity] {nullptr};
+	}
+	mVector(unsigned int _size, const T& val) :size(_size) {
+		capacity = _size * 2;
+		vector_data = new T * [capacity] {nullptr};
+		for (unsigned int i = 0; i < _size; ++i)
+			vector_data[i] = new T(val);
+	}
+	mVector(const mVector<T> & _vector) :size(_vector.size), capacity(_vector.capacity) {
+		vector_data = new T * [capacity] {nullptr};
+		for (int i = 0; i < size; ++i)
+			vector_data[i] = new T(*_vector.vector_data[i]);
+	}
+	//析构函数
+	~mVector() {
+		for (unsigned int i = 0; i < size; ++i)
+			delete vector_data[i];
+		delete[] vector_data;
+	}
+
+	//迭代器
+	class iterator {
+		T** pos = nullptr;
+		friend iterator mVector<T>::begin();
+		friend iterator mVector<T>::end();
+		friend void mVector<T>::erase(const iterator& val);
+	public:
+		iterator() = default;
+		iterator(const iterator& other) {
+			pos = other.pos;
+		}
+		iterator& operator++() {
+			++pos;
+			return *this;
+		}
+		iterator operator++(int) {
+			iterator temp(*this);
+			++pos;
+			return temp;
+		}
+		iterator& operator--() {
+			--pos;
+			return *this;
+		}
+		iterator operator--(int) {
+			iterator temp(*this);
+			--pos;
+			return temp;
+		}
+		bool operator==(const iterator& other) const {
+			return pos == other.pos;
+		}
+		bool operator!=(const iterator& other) const {
+			return pos != other.pos;
+		}
+		iterator& operator=(const iterator& other) {
+			pos = other.pos;
+			return *this;
+		}
+		T& operator*() const {
+			return **pos;
+		}
+	};
+
+	//增加元素
+	void push_back(const T & val) {
+		if (size < capacity)
+			vector_data[size++] = new T(val);
+		else {
+			T** temp_data = new T * [(capacity + 1) * 2]{ nullptr };
+			for (unsigned int i = 0; i < size; ++i)
+				temp_data[i] = vector_data[i];
+			temp_data[size++] = new T(val);
+			capacity = (capacity + 1) * 2;
+			delete[] vector_data;
+			vector_data = temp_data;
+		}
+	}
+
+	//删除末尾
+	void pop_back() {
+		delete vector_data[size];
+		vector_data[size--] = nullptr;
+	}
+
+	//清空
+	void clear() {
+		for (unsigned int i = 0; i < size; ++i) {
+			delete vector_data[i];
+			vector_data[i] = nullptr;
+		}
+		size = 0;
+	}
+
+	//删除
+	void erase(const iterator & val) {
+		delete* val.pos;
+		for (auto p = val.pos; p != vector_data + size - 1; ++p)
+			* p = *(p + 1);
+		--size;
+		vector_data[size] = nullptr;
+	}
+
+	//重载运算符
+	T & operator[](const unsigned int& pos) {
+		return *vector_data[pos];
+	}
+
+	iterator begin() {
+		iterator temp;
+		temp.pos = vector_data;
+		return temp;
+	}
+
+	iterator end() {
+		iterator temp;
+		temp.pos = vector_data + size;
+		return temp;
+	}
+
+};
+
+
 template <class T>
 class myPriorityQueue {
 public:
-	vector<T> queueData;
+	mVector<T> queueData;
 	unsigned int sizeOfQueue = 0;
 	bool(*cmp)(T a, T b) = [](T a, T b) {return a < b; };
 
@@ -115,7 +251,7 @@ public:
 	}
 };
 
-int find(int num,int startPos,int& pos,int numSize,const vector<int> &b) {
+int find(int num,int startPos,int& pos,int numSize,mVector<int> &b) {
 	if (startPos > numSize)
 		return -1;
 	if (b[startPos] > num) {
@@ -145,7 +281,7 @@ int find(int num,int startPos,int& pos,int numSize,const vector<int> &b) {
 			return 0;
 		}
 		else {
-			pos = min(pos1, pos2);
+			pos = mmin(pos1, pos2);
 			return 0;
 		}
 	}

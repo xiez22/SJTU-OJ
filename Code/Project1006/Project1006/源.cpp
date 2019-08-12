@@ -2,18 +2,19 @@
 
 using namespace std;
 
-constexpr auto maxnum = 1000000;
+constexpr auto maxnum = 1000009;
+constexpr int inf = 10000000;
 
 //求解
 template <class T>
-T bilibili(T *input,int num) {
-	if (num == 1) return -100;
+T bilibili(T* input, int num) {
+	if (num == 1) return -inf;
 	else if (num == 2) return input[0] + input[1];
 	//分成两块
 	int center = num / 2;
-	T a = bilibili(input, num / 2), b = bilibili(input + num / 2, num-num/2);
+	T a = bilibili(input, num / 2), b = bilibili(input + num / 2, num - num / 2);
 	//寻找左右的最大值
-	T maxl = -100, maxr = -100, templ = 0, tempr = 0,count=0;
+	T maxl = -inf, maxr = -inf, templ = 0, tempr = 0, count = 0;
 	for (int i = num / 2 - 1; i >= 0; i--) {
 		templ += input[i];
 		maxl = maxl < templ ? templ : maxl;
@@ -27,15 +28,18 @@ T bilibili(T *input,int num) {
 	max = max > maxl ? max : maxl;
 	return max;
 }
-
+int input[maxnum];
 int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+
 	int n;
-	short input[maxnum];
+
 	cin >> n;
 	for (int i = 0; i < n; i++) {
 		cin >> input[i];
 	}
-	short ans = bilibili(input, n);
+	int ans = bilibili(input, n);
 	if (ans > 0) {
 		cout << ans << endl;
 	}

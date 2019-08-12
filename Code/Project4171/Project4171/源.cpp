@@ -120,8 +120,10 @@ public:
 int a[1000009] = { 0 }, b[1000009] = { 0 };
 //构造堆
 myPriorityQueue<data_type> queue_data;
+//保存临时数据
+data_type data_temp[1000009];
 //保存答案
-vector<int> ans_data;
+int ans_data[1000009];
 
 int main() {
 	int num;
@@ -134,31 +136,30 @@ int main() {
 
 	sort(a, a + num);
 	sort(b, b + num);
-
-	
 	
 	//初始化堆
 	for (int i = 0; i < num; ++i) {
 		data_type temp(a[0] + b[i], 0, i);
-		queue_data.push(temp);
+		data_temp[i] = temp;
 	}
+
+	queue_data.buildHeap(data_temp,num);
 
 	//进行排序和写入
 	for (int i = 0; i < num; ++i) {
-		auto temp = queue_data.top();
+		auto temp = queue_data.pop();
 		//写入答案
-		ans_data.push_back(temp.val);
+		ans_data[i] = temp.val;
 		//准备下一次
 		if (i < num - 1) {
 			++temp.posa;
 			temp.val = a[temp.posa] + b[temp.posb];
-			queue_data.pop();
 			queue_data.push(temp);
 		}
 	}
 
 	//输出答案
-	printf("%d", ans_data.front());
+	printf("%d", ans_data[0]);
 	for (int i = 1; i < num; ++i)
 		printf(" %d", ans_data[i]);
 
