@@ -4,4 +4,4 @@ project(Code)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Code
-        4370.cpp)
+        4379.cpp)
